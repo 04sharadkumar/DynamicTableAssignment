@@ -8,6 +8,7 @@ function App() {
   const [users] = useState<User[]>(mockUsers);
   const [showAll, setShowAll] = useState(false); // ✅ state for toggle
 
+  
   const columns: Column<User>[] = [
     { key: "name", title: "Name", dataIndex: "name", sortable: true },
     { key: "email", title: "Email", dataIndex: "email" },
