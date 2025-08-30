@@ -6,9 +6,8 @@ function App() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [users] = useState<User[]>(mockUsers);
-  const [showAll, setShowAll] = useState(false); // ✅ state for toggle
+  const [showAll, setShowAll] = useState(false);
 
-  
   const columns: Column<User>[] = [
     { key: "name", title: "Name", dataIndex: "name", sortable: true },
     { key: "email", title: "Email", dataIndex: "email" },
@@ -19,17 +18,16 @@ function App() {
     u.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  
   const displayedUsers = showAll ? filteredUsers : filteredUsers.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-white p-4 md:p-8 flex flex-col gap-8">
-      <div className="max-w-6xl mx-auto w-full">
-        <header className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
-            Dynamic Table
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-4 md:p-8 flex flex-col gap-8">
+      <div className="max-w-7xl mx-auto w-full">
+        <header className="mb-10 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700">
+            Dynamic User Directory
           </h1>
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-600 mt-3 text-lg max-w-2xl mx-auto">
             Search, filter, and manage users with our intuitive interface
           </p>
         </header>
@@ -37,8 +35,11 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Input Section */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white border border-blue-200 rounded-2xl shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
                 Search & Filters
               </h2>
 
@@ -50,55 +51,68 @@ function App() {
                 size="md"
                 clearable
                 aria-label="Search users by name"
+                
               />
 
               <div
-                className={`mt-6 p-4 rounded-lg ${
+                className={`mt-6 p-4 rounded-xl transition-all duration-300 ${
                   search === ""
-                    ? "bg-gray-50"
+                    ? "bg-blue-50 border border-blue-100"
                     : filteredUsers.length > 0
-                    ? "bg-green-50"
-                    : "bg-red-50"
+                    ? "bg-green-50 border border-green-100"
+                    : "bg-red-50 border border-red-100"
                 }`}
               >
-                <h3
-                  className={`font-medium ${
-                    search === ""
-                      ? "text-gray-700"
-                      : filteredUsers.length > 0
-                      ? "text-green-700"
-                      : "text-red-700"
-                  }`}
-                >
-                  Search Results
-                </h3>
-                <p
-                  className={`text-sm mt-1 ${
-                    search === ""
-                      ? "text-gray-600"
-                      : filteredUsers.length > 0
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }`}
-                >
-                  {search === ""
-                    ? "Type a name to search users"
-                    : filteredUsers.length > 0
-                    ? `Found ${filteredUsers.length} user${
-                        filteredUsers.length !== 1 ? "s" : ""
-                      } matching your search`
-                    : "No users found"}
-                </p>
+                <div className="flex items-center gap-3">
+                  <div className={`rounded-full p-1 ${search === "" ? "bg-blue-100 text-blue-600" : filteredUsers.length > 0 ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3
+                      className={`font-medium ${
+                        search === ""
+                          ? "text-blue-700"
+                          : filteredUsers.length > 0
+                          ? "text-green-700"
+                          : "text-red-700"
+                      }`}
+                    >
+                      Search Results
+                    </h3>
+                    <p
+                      className={`text-sm mt-1 ${
+                        search === ""
+                          ? "text-blue-600"
+                          : filteredUsers.length > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {search === ""
+                        ? "Type a name to search users"
+                        : filteredUsers.length > 0
+                        ? `Found ${filteredUsers.length} user${
+                            filteredUsers.length !== 1 ? "s" : ""
+                          } matching your search`
+                        : "No users found"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* DataTable Section */}
           <div className="lg:col-span-2">
-            <div className="bg-white border border-blue-200 rounded-2xl shadow-lg p-6">
+            <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
               {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-700 mb-4 sm:mb-0">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8">
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4 sm:mb-0 flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
                   User Directory
                 </h2>
 
@@ -108,13 +122,13 @@ function App() {
                     setTimeout(() => setLoading(false), 1500);
                   }}
                   disabled={loading}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 disabled:bg-blue-300 text-white rounded-lg transition-all duration-200"
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-blue-300 disabled:to-indigo-300 text-white rounded-xl transition-all duration-200 shadow-md hover:shadow-lg disabled:shadow-none"
                   aria-label="Refresh user data"
                 >
                   {loading ? (
                     <>
                       <svg
-                        className="animate-spin h-4 w-4 text-white"
+                        className="animate-spin h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -142,7 +156,7 @@ function App() {
                     <>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
+                        className="h-5 w-5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -174,18 +188,36 @@ function App() {
 
               {/* Show More / Show Less Button */}
               {filteredUsers.length > 5 && (
-                <div className="mt-4 flex justify-end">
+                <div className="mt-6 flex justify-center">
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="text-sm px-4 py-2 border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl transition-all duration-200 font-medium border border-indigo-100 hover:border-indigo-200"
                   >
-                    {showAll ? "Show Less" : "Show All"}
+                    {showAll ? (
+                      <>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
+                        Show Less
+                      </>
+                    ) : (
+                      <>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                        View All ({filteredUsers.length} users)
+                      </>
+                    )}
                   </button>
                 </div>
               )}
             </div>
           </div>
         </div>
+        
+        <footer className="mt-12 text-center text-gray-500 text-sm">
+          <p>© {new Date().getFullYear()} User Directory App. All rights reserved.</p>
+        </footer>
       </div>
     </div>
   );
